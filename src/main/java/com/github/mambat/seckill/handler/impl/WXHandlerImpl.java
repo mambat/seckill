@@ -12,9 +12,8 @@ import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * TODO: Document Me!!
  *
- * @author wanglei
+ *  @author wanglei
  * @date 17/2/23 上午11:29
  */
 public class WXHandlerImpl extends AuthHandlerImpl implements WXHandler {

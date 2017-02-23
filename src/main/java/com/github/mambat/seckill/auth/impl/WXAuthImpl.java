@@ -8,6 +8,8 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +19,12 @@ import org.apache.commons.lang3.StringUtils;
  * @date 17/2/22 下午9:37
  */
 public class WXAuthImpl implements WXAuth, AuthProvider {
-    private static final String AES_KEY = "put your crypto key here";
+
+    private static final Logger LOG = LoggerFactory.getLogger(WXAuthImpl.class);
+
+    // create a random key: Aes.generateKey(); -- "ZtqXzMQRYK4dGzdlW01aTQ"
+    // create encrypt openid: Aes.encrypt("your_openid", Aes.getKey(AES_KEY); -- "q9MaqpGNKyRXHsu55E-jyA"
+    private static final String AES_KEY = "ZtqXzMQRYK4dGzdlW01aTQ";
 
     @Override
     public void authenticate(JsonObject authInfo, Handler<AsyncResult<User>> resultHandler) {
@@ -37,7 +44,7 @@ public class WXAuthImpl implements WXAuth, AuthProvider {
 
             resultHandler.handle(Future.succeededFuture(new WXUser(decryptOpenidObj)));
         } catch (Exception e) {
-
+            LOG.warn(e.getMessage(), e);
             resultHandler.handle(Future.failedFuture("openid is invalid"));
         }
     }
