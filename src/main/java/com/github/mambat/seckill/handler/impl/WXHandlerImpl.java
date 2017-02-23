@@ -12,8 +12,7 @@ import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
- *  @author wanglei
+ * @author wanglei
  * @date 17/2/23 上午11:29
  */
 public class WXHandlerImpl extends AuthHandlerImpl implements WXHandler {
@@ -48,7 +47,7 @@ public class WXHandlerImpl extends AuthHandlerImpl implements WXHandler {
                 context.setUser(user2);
                 authorise(user2, context);
             } else {
-                LOG.warn("WX decode failure", res.cause());
+                LOG.warn("WX auth failure", res.cause());
                 context.fail(401);
             }
         });

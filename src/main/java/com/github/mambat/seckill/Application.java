@@ -2,6 +2,7 @@ package com.github.mambat.seckill;
 
 import com.github.mambat.seckill.auth.WXAuth;
 import com.github.mambat.seckill.handler.WXHandler;
+import com.github.mambat.seckill.utils.Keys;
 import com.github.mambat.seckill.utils.Runner;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServerResponse;
@@ -16,8 +17,8 @@ import io.vertx.ext.web.RoutingContext;
  * @date 17/2/22 上午11:43
  */
 public class Application extends AbstractVerticle {
+
     private static int port = 8080;
-    public static final String OPEN_ID = "openid";
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -47,7 +48,7 @@ public class Application extends AbstractVerticle {
     }
 
     private void handleSeckill(RoutingContext context) {
-        String openid = context.request().getHeader(OPEN_ID);
+        String openid = context.request().getHeader(Keys.OPEN_ID);
 //        BasicAuthHandler.create(authProvider);
         // This handler will be called for every request
         HttpServerResponse response = context.response();
