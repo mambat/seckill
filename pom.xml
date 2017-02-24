@@ -12,13 +12,19 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <vertx.version>3.3.3</vertx.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
-            <version>3.3.3</version>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-redis-client</artifactId>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

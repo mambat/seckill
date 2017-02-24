@@ -1,14 +1,14 @@
 package com.github.mambat.seckill;
 
 import com.github.mambat.seckill.auth.WXAuth;
+import com.github.mambat.seckill.handler.SKApplyHandler;
 import com.github.mambat.seckill.handler.WXHandler;
-import com.github.mambat.seckill.utils.Keys;
 import com.github.mambat.seckill.utils.Runner;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.redis.RedisClient;
+import io.vertx.redis.RedisOptions;
 
 /**
  * Application.
@@ -19,6 +19,8 @@ import io.vertx.ext.web.RoutingContext;
 public class Application extends AbstractVerticle {
 
     private static int port = 8080;
+
+    private RedisClient redisClient;
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -38,23 +40,20 @@ public class Application extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
+        setupRedisClient();
+
         Router router = Router.router(vertx);
 
         AuthProvider authProvider = WXAuth.create();
         router.route().handler(WXHandler.create(authProvider));
 
-        router.get("/seckill/apply/:id").handler(this::handleSeckill);
+        router.get("/api/apply/:id").handler(new SKApplyHandler(redisClient));
+
         vertx.createHttpServer().requestHandler(router::accept).listen(port);
     }
 
-    private void handleSeckill(RoutingContext context) {
-        String openid = context.request().getHeader(Keys.OPEN_ID);
-//        BasicAuthHandler.create(authProvider);
-        // This handler will be called for every request
-        HttpServerResponse response = context.response();
-        response.putHeader("content-type", "text/plain");
-
-        // Write to the response and end it
-        response.end("Hello " + context.user().toString());
+    private void setupRedisClient() {
+        RedisOptions config = new RedisOptions().setHost("127.0.0.1").setPort(6379);
+        this.redisClient = RedisClient.create(vertx, config);
     }
 }

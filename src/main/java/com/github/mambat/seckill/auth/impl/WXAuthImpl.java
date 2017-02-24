@@ -22,7 +22,8 @@ public class WXAuthImpl implements WXAuth, AuthProvider {
     private static final Logger LOG = LoggerFactory.getLogger(WXAuthImpl.class);
 
     // Tools.createAuthData();
-    private static final String AES_KEY = "aEgvo2Wvi7VuA0CqYITkoA";
+    // V5bfx2ego8Y9qsCt6OeytQi_loagHY1LWQI7eGRwh6M
+    private static final String AES_KEY = "EpU1pnplroNnF3Bhg0shFA";
 
     @Override
     public void authenticate(JsonObject authInfo, Handler<AsyncResult<User>> resultHandler) {
